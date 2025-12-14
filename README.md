@@ -1,5 +1,5 @@
 Išankstinė objektinio egzamino užduotis<br>
-Trumpai aprašysiu savo kuriamą kodą rementis atliekama užduotimi (iš duotų 4).
+Trumpai aprašysiu savo kuriamą kodą rementis atliekama užduotimi (iš duotų 3).
 
 <b>Antra užduotis</b><br>
 1. Pakeitus asociatyvaus konteinerio <b>map</b> saugomas reikšmes dabar galima <b>matyti pasikartojančio žodžio vietą tekste (eilutės nr.).</b><br>
