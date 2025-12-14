@@ -2,7 +2,7 @@ Išankstinė objektinio egzamino užduotis<br>
 Trumpai aprašysiu savo kuriamą kodą rementis atliekama užduotimi (iš duotų 4).
 
 <b>Antra užduotis</b><br>
-1. Pakeistus asociatyvaus konteinerio <b>map</b> saugomas reikšmes dabar galima <b>matyti pasikartojančio žodžio vietą tekste (eilutės nr.).</b><br>
+1. Pakeitus asociatyvaus konteinerio <b>map</b> saugomas reikšmes dabar galima <b>matyti pasikartojančio žodžio vietą tekste (eilutės nr.).</b><br>
 2. Šiam rezultatui išvesti pritaikytas ir atitinkamas rezultato išvedimas.
 
 <b>Pirma užduotis</b><br>
