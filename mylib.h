@@ -18,10 +18,18 @@ using std::tolower;
 using std::vector;
 using std::tolower;
 using std::ofstream;
+using std::setw;
+using std::left;
+
 
 // using std::
 
-map<string, int> failo_nuskaitymas(const string &failas);
+struct zodzioInfo{
+    int kiekis = 0;
+    vector<int> eil;
+};
+
+map<string, zodzioInfo> failo_nuskaitymas(const string &failas);
 bool ar_leistina_raide(string c);
 string naikinti_simbolius(string s);
-void failo_isvedimas(map<string, int> zodziai);
+void failo_isvedimas(map<string, zodzioInfo> zodziai);
