@@ -1,9 +1,10 @@
 #include "mylib.h"
 
-map<string, int> failo_nuskaitymas(const string &failas)
+map<string, zodzioInfo> failo_nuskaitymas(const string &failas)
 {
-    map<string, int> zodziai;
+    map<string, zodzioInfo> zodziai;
     ifstream fd(failas);
+    int eil_nr = 0;
 
     if (!fd)
     {
@@ -17,6 +18,7 @@ map<string, int> failo_nuskaitymas(const string &failas)
 
         while (getline(fd, eil))
         {
+            eil_nr += 1;
             istringstream iss(eil); // eilute paverciam i duomenu srauta
             string zodis;
 
@@ -27,12 +29,13 @@ map<string, int> failo_nuskaitymas(const string &failas)
                 {
                     if (zodziai.find(zodis) == zodziai.end())
                     {
-                        zodziai.insert({zodis, 0});
-                        zodziai[zodis] += 1;
+                        zodziai[zodis].kiekis++;
+                        zodziai[zodis].eil.push_back(eil_nr);
                     }
                     else
                     {
-                        zodziai[zodis] += 1;
+                        zodziai[zodis].kiekis += 1;
+                        zodziai[zodis].eil.push_back(eil_nr);
                     }
                 }
             }
@@ -94,14 +97,20 @@ string naikinti_simbolius(string s)
     return rezultatas;
 }
 
-void failo_isvedimas(map<string, int> zodziai)
+void failo_isvedimas(map<string, zodzioInfo> zodziai)
 {
     ofstream fr("rezultatai.txt");
-    for (auto z : zodziai)
+    fr << setw(20) << left << "Žodis" << setw(25) << left << "Pasikartojimų sk." << setw(20) << left << "Eilučių nr." << endl;
+    for (const auto &z : zodziai)
     {
-        if (z.second > 1)
+        if (z.second.kiekis > 1)
         {
-            fr << z.first << ": " << z.second << endl;
+            fr << left << setw(20) << z.first << left << setw(25) << z.second.kiekis << left;
+            for (int i = 0; i < z.second.eil.size(); i++)
+            {
+                fr << z.second.eil[i] <<" ";
+            }
+            fr << endl;
         }
     }
     cout << "Failai isvesti." << endl;
