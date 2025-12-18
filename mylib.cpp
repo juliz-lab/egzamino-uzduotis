@@ -99,20 +99,114 @@ string naikinti_simbolius(string s)
 
 void failo_isvedimas(map<string, zodzioInfo> zodziai)
 {
-    ofstream fr("rezultatai.txt");
-    fr << setw(20) << left << "Žodis" << setw(25) << left << "Pasikartojimų sk." << setw(20) << left << "Eilučių nr." << endl;
+    ofstream fr("pasikartojantys_zodziai.txt");
+    fr << setw(25) << left << "Žodis" << setw(25) << left << "Pasikartojimų sk." << setw(20) << left << "Eilučių nr." << endl;
     for (const auto &z : zodziai)
     {
         if (z.second.kiekis > 1)
         {
-            fr << left << setw(20) << z.first << left << setw(25) << z.second.kiekis << left;
+            fr << left << setw(25) << z.first << left << setw(25) << z.second.kiekis << left;
             for (int i = 0; i < z.second.eil.size(); i++)
             {
-                fr << z.second.eil[i] <<" ";
+                fr << z.second.eil[i] << " ";
             }
             fr << endl;
         }
     }
-    cout << "Failai isvesti." << endl;
+    cout << "Žodžiai išvesti faile pasikartojantys_zodziai.txt." << endl;
+    fr.close();
+}
+
+vector<string> url_nuskaitymas(const string &failas)
+{
+    vector<string> galai;
+    ifstream fd(failas);
+
+    if (!fd)
+    {
+        cout << "Nepavyko atidaryti failo: " << failas << endl;
+        return {};
+    }
+    else
+    {
+        cout << "Nuskaitomas " << failas << endl;
+        string eil;
+        while (getline(fd, eil))
+        {
+            galai.push_back(eil);
+        }
+    }
+    return galai;
+}
+
+vector<string> nuorodu_paieska(const string &failas, const vector<string> &galai)
+{
+    vector<string> nuorodos;
+    ifstream fd(failas);
+    if (!fd)
+    {
+        cout << "Nepavyko atidaryti failo: " << failas << endl;
+        return nuorodos;
+    }
+    else
+    {
+        string eil;
+        regex r = regex_sablonas(galai);
+
+        cout << "Pradedama nuorodų paieška." << endl;
+        while (getline(fd, eil))
+        {
+            istringstream iss(eil);
+            string zodis;
+            while (iss >> zodis)
+            {
+                while (!zodis.empty() && ispunct(zodis.front()))
+                {
+                    zodis.erase(zodis.begin());
+                }
+                while (!zodis.empty() && ispunct(zodis.back()))
+                {
+                    zodis.pop_back();
+                }
+                if (regex_patikra(zodis, r))
+                {
+                    nuorodos.push_back(zodis);
+                }
+            }
+        }
+    }
+    return nuorodos;
+}
+
+bool regex_patikra(const string &zodis, const regex &r)
+{
+    return regex_match(zodis, r);
+}
+
+regex regex_sablonas(const vector<string> &galai)
+{
+    string sablonas = R"((https?://)?(www\.)?\S+\.()";
+
+    for (size_t i = 0; i < galai.size(); i++)
+    {
+        sablonas += galai[i];
+        if (i + 1 < galai.size())
+        {
+            sablonas += "|";
+        }
+    }
+    sablonas += R"()(\b[^\[\(\s]+)?)";
+    regex r(sablonas, regex::icase);
+    return r;
+}
+
+void nuorodu_isvedimas(const vector<string> &nuorodos)
+{
+    ofstream fr("nuorodos.txt");
+    for (const auto &n : nuorodos)
+    {
+        fr << n << endl;
+    }
+    cout << "Nuorodos išvestos faile nuorodos.txt." << endl;
     fr.close();
 }
