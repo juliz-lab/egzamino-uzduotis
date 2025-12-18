@@ -78,14 +78,6 @@ string naikinti_simbolius(string s)
         {
             ilg = 2;
         }
-        else if (c >= 0xE0 && c <= 0xEF)
-        {
-            ilg = 3;
-        }
-        else if (c >= 0xF0 && c <= 0xF7)
-        {
-            ilg = 4;
-        }
         string simbolis = s.substr(i, ilg);
 
         if (ar_leistina_raide(simbolis))
